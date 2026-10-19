@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Student | Student Result Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f6fc;
+            color: #243047;
+        }
+
+        header {
+            background: linear-gradient(135deg, #172e59, #4472c4);
+            color: white;
+            padding: 28px 6%;
+            box-shadow: 0 5px 18px rgba(32, 56, 100, .15);
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 29px;
+        }
+
+        header p {
+            margin: 0;
+            color: #e1eaff;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 17px;
+            box-shadow: 0 8px 28px rgba(31, 55, 90, .07);
+            margin-bottom: 24px;
+            border: 1px solid #e6ebf4;
+        }
+
+        .heading-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px;
+        }
+
+        .heading-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e8f0ff;
+            border-radius: 13px;
+            font-size: 23px;
+            flex-shrink: 0;
+        }
+
+        .section h2 {
+            margin: 0;
+            color: #203864;
+            font-size: 23px;
+        }
+
+        .subtitle {
+            color: #78859a;
+            font-size: 14px;
+            margin: 12px 0 25px;
+            line-height: 1.7;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: 700;
+            font-size: 13px;
+            color: #34445f;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        input {
+            display: block;
+            flex: 1;
+            min-width: 0;
+            padding: 14px 15px;
+            border: 1px solid #d1dbea;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #243047;
+            background: #fbfcff;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        input:focus {
+            border-color: #4472c4;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(68, 114, 196, .12);
+        }
+
+        button,
+        .action-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 17px;
+            background: #203864;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s;
+            text-align: center;
+        }
+
+        button:hover,
+        .action-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 13px rgba(32, 56, 100, .16);
+        }
+
+        .search-button {
+            background: linear-gradient(135deg, #203864, #4472c4);
+            white-space: nowrap;
+        }
+
+        .error {
+            color: #a61b1b;
+            background: #fff1f0;
+            border: 1px solid #ffd6d2;
+            padding: 13px 15px;
+            border-radius: 9px;
+            margin: 20px 0 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .student-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: #e8f7ee;
+            color: #216c43;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 750;
+            margin: 18px 0 20px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 8px;
+        }
+
+        .detail-card {
+            padding: 17px;
+            border: 1px solid #e5ebf5;
+            border-radius: 11px;
+            background: #f9fbff;
+            min-width: 0;
+        }
+
+        .detail-label {
+            color: #78859a;
+            font-size: 12px;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: #263956;
+            font-size: 14px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .register-card {
+            background: #edf3ff;
+            border-color: #dce7fb;
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 11px;
+            margin-top: 25px;
+        }
+
+        .result-link {
+            background: #287a55;
+        }
+
+        .edit-link {
+            background: #b66a13;
+        }
+
+        .back-link {
+            background: #64748b;
+        }
+
+        .empty-back {
+            margin-bottom: 24px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #8793a6;
+            font-size: 12px;
+            padding: 8px 0 25px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 23px 20px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            main {
+                margin: 22px auto;
+                padding: 0 13px;
+            }
+
+            .section {
+                padding: 21px 18px;
+                border-radius: 14px;
+            }
+
+            .section h2 {
+                font-size: 21px;
+            }
+
+            .input-row {
+                flex-direction: column;
+            }
+
+            .search-button {
+                width: 100%;
+                min-height: 45px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .links {
+                flex-direction: column;
+            }
+
+            .links .action-link {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>🔎 Student Search</h1>
+        <p>Student Result Management System · Find Student Records</p>
+    </div>
+</header>
+
+<main>
+
+    <div class="section">
+        <div class="heading-row">
+            <div class="heading-icon">🔍</div>
+            <h2>Search Student</h2>
+        </div>
+
+        <p class="subtitle">
+            Register number enter panni student details-ai quick-ah find pannalaam.
+        </p>
+
+        <form method="POST" action="{% url 'admin_search_student' %}">
+            {% csrf_token %}
+
+            <label for="register_number">Student Register Number</label>
+
+            <div class="input-row">
+                <input
+                    type="text"
+                    id="register_number"
+                    name="register_number"
+                    placeholder="Enter student register number"
+                    value="{{ request.GET.register_number|default:'' }}"
+                    required
+                >
+
+                <button type="submit" class="search-button">
+                    🔍 Search
+                </button>
+            </div>
+        </form>
+
+        {% if error %}
+            <p class="error">⚠️ {{ error }}</p>
+        {% endif %}
+    </div>
+
+    {% if student %}
+        <div class="section">
+            <div class="heading-row">
+                <div class="heading-icon">🎓</div>
+                <h2>Student Details</h2>
+            </div>
+
+            <span class="student-badge">✓ Student Found</span>
+
+            <div class="details-grid">
+                <div class="detail-card register-card">
+                    <div class="detail-label">Register Number</div>
+                    <div class="detail-value">{{ student.register_number }}</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-label">Student Name</div>
+                    <div class="detail-value">{{ student.name }}</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-label">Email Address</div>
+                    <div class="detail-value">{{ student.email }}</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-label">Department</div>
+                    <div class="detail-value">{{ student.department }}</div>
+                </div>
+
+                <div class="detail-card">
+                    <div class="detail-label">Academic Year</div>
+                    <div class="detail-value">{{ student.year }}</div>
+                </div>
+            </div>
+
+            <div class="links">
+                <a
+                    class="action-link result-link"
+                    href="{% url 'student_result' student.register_number %}"
+                >
+                    📊 View Student Result
+                </a>
+
+                <a
+                    class="action-link edit-link"
+                    href="{% url 'edit_student' student.id %}"
+                >
+                    ✏️ Edit Student
+                </a>
+
+                <a
+                    class="action-link back-link"
+                    href="{% url 'admin_dashboard' %}"
+                >
+                    ← Dashboard
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if not student %}
+        <div class="empty-back">
+            <a class="action-link back-link" href="{% url 'admin_dashboard' %}">
+                ← Back to Dashboard
+            </a>
+        </div>
+    {% endif %}
+
+</main>
+
+<div class="footer">
+    Student Result Management System
+</div>
+
+</body>
+</html>

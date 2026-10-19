@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Login | SRMS</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #142857, #285fc0, #769be8);
+            color: #263654;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+            padding: 38px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(8, 25, 65, 0.25);
+        }
+
+        .logo {
+            width: 76px;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            border-radius: 22px;
+            background: #edf3ff;
+            font-size: 38px;
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .heading h1 {
+            margin-bottom: 10px;
+            color: #1d3470;
+            font-size: 27px;
+        }
+
+        .heading p {
+            color: #7a879d;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .portal-label {
+            margin-bottom: 10px;
+            color: #3266c4;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            color: #344563;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1px solid #dce4f1;
+            border-radius: 10px;
+            outline: none;
+            background: #f9fbff;
+            color: #243451;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: #3266c4;
+            box-shadow: 0 0 0 3px rgba(50, 102, 196, 0.12);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 75px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            padding: 6px;
+            border: none;
+            background: transparent;
+            color: #3266c4;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .toggle-password:hover {
+            color: #173b83;
+        }
+
+        .error-message {
+            margin-bottom: 20px;
+            padding: 12px 14px;
+            border: 1px solid #f4caca;
+            border-radius: 9px;
+            background: #fff0f0;
+            color: #b42332;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .login-button {
+            width: 100%;
+            margin-top: 5px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #285fc0, #1c438e);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 95, 192, 0.25);
+        }
+
+        .login-button:focus-visible,
+        .toggle-password:focus-visible {
+            outline: 3px solid #8eb3ff;
+            outline-offset: 3px;
+        }
+
+        .footer {
+            margin-top: 27px;
+            padding-top: 20px;
+            border-top: 1px solid #edf0f6;
+            text-align: center;
+            color: #8792a5;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+
+            .login-container {
+                padding: 28px 22px;
+            }
+
+            .heading h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="login-container">
+
+        <div class="logo" aria-hidden="true">🎓</div>
+
+        <div class="heading">
+            <p class="portal-label">STUDENT PORTAL</p>
+            <h1>Welcome Back!</h1>
+            <p>Login to view your academic results.</p>
+        </div>
+
+        {% if error %}
+            <div class="error-message" role="alert">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="register_number">Register Number / Username</label>
+                <input
+                    type="text"
+                    id="register_number"
+                    name="register_number"
+                    placeholder="Enter your register number"
+                    autocomplete="username"
+                    required
+                    autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required>
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword"
+                        aria-controls="password"
+                        aria-pressed="false">
+                        Show
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="login-button">
+                Login to Portal →
+            </button>
+        </form>
+
+        <footer class="footer">
+            <p>Student Result Management System</p>
+            <p>Secure Student Access</p>
+        </footer>
+
+    </main>
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const toggleButton = document.getElementById("togglePassword");
+
+        toggleButton.addEventListener("click", function () {
+            const isPasswordHidden = passwordInput.type === "password";
+
+            passwordInput.type = isPasswordHidden ? "text" : "password";
+            toggleButton.textContent = isPasswordHidden ? "Hide" : "Show";
+            toggleButton.setAttribute("aria-pressed", String(isPasswordHidden));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f4f7fc;color:#1e293b}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:220px;background:#10244a;color:white;padding:24px 16px;flex-shrink:0}
+.brand{font-size:21px;font-weight:bold;margin-bottom:30px}
+.brand span{color:#60a5fa}
+.menu-label{color:#94a9cb;font-size:11px;margin:22px 8px 10px}
+.nav-link{display:block;padding:12px;color:#d5e1f5;text-decoration:none;border-radius:8px;margin-bottom:5px;font-size:14px}
+.nav-link:hover,.active{background:#24477e;color:white}
+.main{flex:1;min-width:0;padding:25px}
+.topbar,.section-header,.chart-info{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.topbar{margin-bottom:25px}
+h1{font-size:28px;margin-bottom:7px}
+.subtitle,.meta,.note{color:#718096;font-size:13px}
+.badge{background:white;padding:12px;border-radius:10px;font-size:13px}
+.welcome{background:linear-gradient(120deg,#2563eb,#4f46e5);color:white;padding:25px;border-radius:15px;margin-bottom:22px}
+.welcome h2{margin-bottom:10px}
+.welcome p{font-size:14px;line-height:1.6}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:22px}
+.stat,.section{background:white;padding:22px;border:1px solid #e5ebf5;border-radius:14px;margin-bottom:22px}
+.stat-label{color:#718096;font-size:13px}
+.stat-number{font-size:30px;font-weight:bold;margin-top:15px;color:#172b4d}
+.section-header{margin-bottom:20px}
+.section-header h2{font-size:18px}
+.view-all{color:#2563eb;font-size:13px;font-weight:bold;text-decoration:none}
+table{width:100%;border-collapse:collapse;min-width:420px}
+.table-wrap{overflow-x:auto}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid #edf1f7;font-size:13px}
+th{background:#f8faff;color:#718096;font-size:11px}
+.name{font-weight:bold;color:#243b61}
+.register{background:#edf4ff;color:#2459b3;padding:5px;border-radius:5px}
+.percentage{color:#167344;font-weight:bold}
+.empty{text-align:center;color:#718096;padding:25px;line-height:1.6}
+.chart-row{margin-bottom:22px}
+.chart-info{margin-bottom:9px;font-size:13px}
+.bar-track{height:13px;background:#e8edf5;border-radius:20px;overflow:hidden;margin-top:9px}
+.bar-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#3b82f6,#06b6d4)}
+.subject-fill{background:linear-gradient(90deg,#8b5cf6,#ec4899)}
+.meta{line-height:1.8;margin-top:6px}
+.note{margin-top:16px;line-height:1.6}
+.quick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.quick-card{display:block;padding:18px;border:1px solid #e5ebf5;border-radius:12px;text-decoration:none;color:#243b61}
+.quick-card h3{font-size:14px;margin:10px 0}
+.quick-card p{font-size:12px;color:#718096;line-height:1.6}
+footer{text-align:center;color:#8794a9;font-size:12px;padding:15px}
+@media(max-width:900px){.layout{display:block}.sidebar{width:100%}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-grid{grid-template-columns:1fr}.main{padding:16px}}
+@media(max-width:480px){.stats{grid-template-columns:1fr}.stat,.section{padding:16px}h1{font-size:23px}}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+    <div class="brand">🎓 Student <span>Portal</span></div>
+    <div class="menu-label">MAIN MENU</div>
+    <a href="{% url 'admin_dashboard' %}" class="nav-link active">📊 Dashboard</a>
+    <a href="{% url 'view_all_students' %}" class="nav-link">👨‍🎓 All Students</a>
+    <a href="{% url 'admin_search_student' %}" class="nav-link">🔍 Search Student</a>
+    <div class="menu-label">MANAGEMENT</div>
+    <a href="{% url 'add_student' %}" class="nav-link">➕ Add Student</a>
+    <a href="{% url 'add_marks' %}" class="nav-link">📝 Add Marks</a>
+    <div class="menu-label">ADMINISTRATION</div>
+    <a href="/admin/" class="nav-link">⚙️ Django Admin</a>
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+    <div>
+        <h1>Admin Dashboard</h1>
+        <p class="subtitle">Manage students, subjects and results.</p>
+    </div>
+    <div class="badge">🛡️ Administrator Panel</div>
+</header>
+
+<section class="welcome">
+    <h2>Welcome to your Dashboard! 👋</h2>
+    <p>Manage student records, marks and academic results from one place.</p>
+</section>
+
+<!-- General Statistics -->
+<section class="stats">
+    <div class="stat">
+        <div class="stat-label">👨‍🎓 Total Students</div>
+        <div class="stat-number">{{ total_students|default:"0" }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">📚 Total Subjects</div>
+        <div class="stat-number">{{ total_subjects|default:"0" }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">📋 Marks Records</div>
+        <div class="stat-number">{{ total_marks|default:"0" }}</div>
+    </div>
+</section>
+
+<!-- Pass / Fail Statistics -->
+<section class="stats">
+    <div class="stat">
+        <div class="stat-label">✅ Passed Students</div>
+        <div class="stat-number">{{ passed_students|default:"0" }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">❌ Failed Students</div>
+        <div class="stat-number">{{ failed_students|default:"0" }}</div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">📊 Results Processed</div>
+        <div class="stat-number">{{ passed_students|add:failed_students|default:"0" }}</div>
+    </div>
+</section>
+
+<!-- Top Performing Students -->
+<section class="section">
+    <div class="section-header">
+        <h2>🏆 Top 5 Performing Students</h2>
+        <span class="view-all">Ranked by Percentage</span>
+    </div>
+    <div class="table-wrap">
+    <table>
+        <thead><tr><th>Rank</th><th>Register Number</th><th>Name</th><th>Percentage</th></tr></thead>
+        <tbody>
+        {% for item in top_students %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><span class="register">{{ item.student.register_number }}</span></td>
+            <td class="name">{{ item.student.name }}</td>
+            <td class="percentage">{{ item.percentage }}%</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" class="empty">No student results available yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<!-- Student Performance Chart -->
+<section class="section">
+    <div class="section-header">
+        <h2>📊 Student Performance Chart</h2>
+        <span class="view-all">Top 10 by Percentage</span>
+    </div>
+    {% for item in chart_students %}
+    <div class="chart-row">
+        <div class="chart-info">
+            <span class="name">{{ item.name }}</span>
+            <strong>{{ item.percentage }}%</strong>
+        </div>
+        <div class="bar-track">
+            <div class="bar-fill" style="width:{{ item.percentage }}%"></div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty">No student performance data available.</div>
+    {% endfor %}
+</section>
+
+<!-- Subject Average Marks Comparison -->
+<section class="section">
+    <div class="section-header">
+        <h2>📚 Subject Average Marks Comparison</h2>
+        <span class="view-all">Average by Subject</span>
+    </div>
+    {% for subject in subject_chart %}
+    <div class="chart-row">
+        <div class="chart-info">
+            <div>
+                <div class="name">{{ subject.name }} ({{ subject.code }})</div>
+                <div class="meta">
+                    Average Marks: {{ subject.average_marks|default:"0" }} / {{ subject.max_marks|default:"100" }}<br>
+                    Students with marks: {{ subject.students_count }}
+                </div>
+            </div>
+            <strong style="color:#7c3aed">{{ subject.percentage }}%</strong>
+        </div>
+        <div class="bar-track">
+            <div class="bar-fill subject-fill" style="width:{{ subject.percentage }}%"></div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty">Add subjects and student marks to view this chart.</div>
+    {% endfor %}
+    <p class="note">Bars show average marks as a percentage of the maximum marks for each subject.</p>
+</section>
+
+<!-- Recent Students -->
+<section class="section">
+    <div class="section-header">
+        <h2>Recent Students</h2>
+        <a href="{% url 'view_all_students' %}" class="view-all">View All →</a>
+    </div>
+    <div class="table-wrap">
+    <table>
+        <thead><tr><th>Register Number</th><th>Name</th><th>Action</th></tr></thead>
+        <tbody>
+        {% for student in recent_students %}
+        <tr>
+            <td><span class="register">{{ student.register_number }}</span></td>
+            <td class="name">{{ student.name }}</td>
+            <td><a class="view-all" href="{% url 'admin_search_student' %}?register_number={{ student.register_number|urlencode }}">View Student</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3" class="empty">No student records found.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<!-- Quick Actions -->
+<section class="section">
+    <div class="section-header"><h2>Quick Actions</h2></div>
+    <div class="quick-grid">
+        <a href="{% url 'add_student' %}" class="quick-card">
+            <div>➕</div><h3>Add New Student</h3>
+            <p>Create a student record and enter details.</p>
+        </a>
+        <a href="{% url 'add_marks' %}" class="quick-card">
+            <div>📝</div><h3>Add Student Marks</h3>
+            <p>Enter marks and maintain academic records.</p>
+        </a>
+        <a href="{% url 'view_all_students' %}" class="quick-card">
+            <div>📑</div><h3>View All Students</h3>
+            <p>Browse student records in your system.</p>
+        </a>
+    </div>
+</section>
+
+<footer>Student Result Management System · Admin Dashboard</footer>
+
+</main>
+</div>
+</body>
+</html>

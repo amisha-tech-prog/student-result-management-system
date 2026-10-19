@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student | Student Result Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f6fc;
+            color: #243047;
+        }
+
+        header {
+            background: linear-gradient(135deg, #172e59, #4472c4);
+            color: white;
+            padding: 28px 6%;
+            box-shadow: 0 5px 18px rgba(32, 56, 100, .15);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 29px;
+        }
+
+        header p {
+            margin: 0;
+            color: #e1eaff;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 780px;
+            margin: 38px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 34px;
+            border-radius: 18px;
+            border: 1px solid #e6ebf4;
+            box-shadow: 0 10px 32px rgba(31, 55, 90, .08);
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .title-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: #e8f0ff;
+            border-radius: 14px;
+            font-size: 25px;
+        }
+
+        .form-card h2 {
+            margin: 0;
+            color: #203864;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            color: #78859a;
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 12px 0 23px;
+        }
+
+        .student-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #edf3ff;
+            color: #203864;
+            padding: 10px 15px;
+            border: 1px solid #dce7fb;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        .section-label {
+            color: #203864;
+            font-size: 14px;
+            font-weight: 750;
+            margin: 0 0 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #34445f;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #d4ddea;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 14px;
+            color: #243047;
+            background: #fbfcff;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+        }
+
+        input:hover {
+            border-color: #a9bbd8;
+        }
+
+        input:focus {
+            border-color: #4472c4;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(68, 114, 196, .12);
+        }
+
+        .error {
+            padding: 13px 15px;
+            border-radius: 9px;
+            color: #a61b1b;
+            background: #fff1f0;
+            border: 1px solid #ffd6d2;
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 0 22px;
+        }
+
+        .divider {
+            border: 0;
+            border-top: 1px solid #edf0f6;
+            margin: 27px 0 23px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        button,
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 20px;
+            background: linear-gradient(135deg, #203864, #4472c4);
+            color: white;
+            border: none;
+            border-radius: 9px;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        button:hover,
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 13px rgba(32, 56, 100, .17);
+        }
+
+        .back-link {
+            background: #64748b;
+        }
+
+        .footer {
+            text-align: center;
+            color: #8793a6;
+            font-size: 12px;
+            padding: 5px 0 25px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 23px 20px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            main {
+                margin: 22px auto;
+                padding: 0 13px;
+            }
+
+            .form-card {
+                padding: 22px 18px;
+                border-radius: 14px;
+            }
+
+            .form-card h2 {
+                font-size: 21px;
+            }
+
+            .title-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .actions button,
+            .actions .back-link {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>✏️ Edit Student Details</h1>
+        <p>Student Result Management System · Student Records</p>
+    </div>
+</header>
+
+<main>
+    <div class="form-card">
+
+        <div class="title-row">
+            <div class="title-icon">🎓</div>
+            <h2>Update Student Information</h2>
+        </div>
+
+        <p class="subtitle">
+            Student details-ai carefully update panni, save changes click pannunga.
+        </p>
+
+        <div class="student-badge">
+            <span>Register No:</span>
+            <span>{{ student.register_number }}</span>
+        </div>
+
+        {% if error %}
+            <p class="error">⚠️ {{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <p class="section-label">Student Information</p>
+
+            <div class="form-group">
+                <label for="register_number">Register Number</label>
+                <input
+                    type="text"
+                    id="register_number"
+                    name="register_number"
+                    value="{{ student.register_number }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="name">Student Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="{{ student.name }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{{ student.email }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="department">Department</label>
+                <input
+                    type="text"
+                    id="department"
+                    name="department"
+                    value="{{ student.department }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="year">Year</label>
+                <input
+                    type="number"
+                    id="year"
+                    name="year"
+                    min="1"
+                    value="{{ student.year }}"
+                    required
+                >
+            </div>
+
+            <hr class="divider">
+
+            <div class="actions">
+                <button type="submit">
+                    ✓ Save Changes
+                </button>
+
+                <a class="back-link" href="{% url 'admin_dashboard' %}">
+                    ← Back to Dashboard
+                </a>
+            </div>
+        </form>
+
+    </div>
+</main>
+
+<div class="footer">
+    Student Result Management System
+</div>
+
+</body>
+</html>

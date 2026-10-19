@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Students | Student Result Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f6fc;
+            color: #243047;
+        }
+
+        header {
+            background: linear-gradient(135deg, #172e59, #4472c4);
+            color: white;
+            padding: 30px 6%;
+            box-shadow: 0 5px 18px rgba(32, 56, 100, 0.15);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+            font-size: 30px;
+            letter-spacing: .3px;
+        }
+
+        header p {
+            margin: 0;
+            color: #e0eaff;
+            font-size: 14px;
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 32px auto;
+            padding: 0 24px;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border: 1px solid #e6ebf4;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(31, 55, 90, .07);
+        }
+
+        .page-heading {
+            margin: 0 0 8px;
+            color: #203864;
+            font-size: 25px;
+        }
+
+        .subtitle {
+            margin: 0 0 26px;
+            color: #78859a;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .count-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 17px 22px;
+            min-width: 245px;
+            background: linear-gradient(135deg, #edf3ff, #f7f9ff);
+            border: 1px solid #dce7fb;
+            border-radius: 13px;
+        }
+
+        .count-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #dce8ff;
+            border-radius: 12px;
+            font-size: 24px;
+        }
+
+        .count-label {
+            color: #68758a;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .count-number {
+            color: #203864;
+            font-size: 27px;
+            font-weight: 750;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 16px;
+            background: #203864;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 650;
+            cursor: pointer;
+            transition: background .2s, transform .2s;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: #34558b;
+            transform: translateY(-1px);
+        }
+
+        .view-btn {
+            background: #287a55;
+        }
+
+        .view-btn:hover {
+            background: #206342;
+        }
+
+        .edit-btn {
+            background: #b66a13;
+        }
+
+        .edit-btn:hover {
+            background: #92530d;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid #e5eaf2;
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        thead th {
+            background: #203864;
+            color: white;
+            padding: 16px 15px;
+            text-align: left;
+            font-size: 12px;
+            letter-spacing: .35px;
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #edf0f6;
+            font-size: 13px;
+            color: #536078;
+            vertical-align: middle;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr {
+            transition: background .2s;
+        }
+
+        tbody tr:hover {
+            background: #f5f8ff;
+        }
+
+        .serial {
+            color: #8995a8;
+            font-weight: 700;
+        }
+
+        .register-number {
+            color: #203864;
+            font-weight: 750;
+            white-space: nowrap;
+        }
+
+        .student-name {
+            color: #263956;
+            font-weight: 700;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 42px 15px !important;
+            color: #748096;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            color: #8793a6;
+            font-size: 12px;
+            padding: 5px 0 25px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 24px 20px;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+
+            main {
+                margin: 20px auto;
+                padding: 0 12px;
+            }
+
+            .container {
+                padding: 19px;
+                border-radius: 13px;
+            }
+
+            .top-bar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .count-card {
+                width: 100%;
+            }
+
+            .top-bar > .btn {
+                width: 100%;
+            }
+
+            .page-heading {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>👨‍🎓 All Students</h1>
+        <p>Student Result Management System · Student Directory</p>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+
+        <h2 class="page-heading">Student Directory</h2>
+        <p class="subtitle">
+            View student information and manage student records from one place.
+        </p>
+
+        <div class="top-bar">
+            <div class="count-card">
+                <div class="count-icon">🎓</div>
+                <div>
+                    <div class="count-label">Total Registered Students</div>
+                    <div class="count-number">{{ students|length }}</div>
+                </div>
+            </div>
+
+            <a href="{% url 'admin_dashboard' %}" class="btn">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Register Number</th>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Year</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="serial">{{ forloop.counter }}</td>
+
+                        <td class="register-number">
+                            {{ student.register_number }}
+                        </td>
+
+                        <td class="student-name">
+                            {{ student.name }}
+                        </td>
+
+                        <td>{{ student.email }}</td>
+                        <td>{{ student.department }}</td>
+                        <td>{{ student.year }}</td>
+
+                        <td>
+                            <div class="actions">
+                                <a href="{% url 'admin_search_student' %}?register_number={{ student.register_number|urlencode }}"
+                                   class="btn view-btn">
+                                    View
+                                </a>
+
+                                <a href="{% url 'edit_student' student.id %}"
+                                   class="btn edit-btn">
+                                    Edit
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="empty">
+                            🎓 No students found. Add a student to get started.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</main>
+
+<div class="footer">
+    Student Result Management System
+</div>
+
+</body>
+</html>

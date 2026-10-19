@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Result Portal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at top left, #dbeafe 0, transparent 45%),
+                linear-gradient(135deg, #edf3ff, #f6f8ff 55%, #e8edff);
+            color: #243047;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(255, 255, 255, .97);
+            padding: 38px 34px 30px;
+            border: 1px solid rgba(219, 231, 251, .9);
+            border-radius: 22px;
+            box-shadow: 0 18px 50px rgba(32, 56, 100, .12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 27px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #203864;
+            color: white;
+            font-size: 21px;
+        }
+
+        .brand-name {
+            color: #203864;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: .3px;
+        }
+
+        .icon {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #dce8ff, #edf3ff);
+            border: 1px solid #d5e3ff;
+            border-radius: 22px;
+            font-size: 35px;
+            box-shadow: 0 7px 18px rgba(68, 114, 196, .1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #203864;
+            margin: 0 0 12px;
+            font-size: 27px;
+            letter-spacing: -.5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #78859a;
+            line-height: 1.8;
+            margin: 0 0 29px;
+            font-size: 14px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 13px;
+            color: #34445f;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            padding: 15px 14px;
+            border: 1px solid #d1dbea;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            color: #243047;
+            background: #fbfcff;
+            transition: border-color .2s, box-shadow .2s, background .2s;
+        }
+
+        input::placeholder {
+            color: #a0aabd;
+        }
+
+        input:focus {
+            border-color: #4472c4;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(68, 114, 196, .12);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 18px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #203864, #4472c4);
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 750;
+            cursor: pointer;
+            box-shadow: 0 7px 16px rgba(32, 56, 100, .16);
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(32, 56, 100, .22);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .error {
+            margin-top: 18px;
+            padding: 13px 14px;
+            border-radius: 9px;
+            background: #fff1f0;
+            border: 1px solid #ffd6d2;
+            color: #a61b1b;
+            font-size: 13px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .secure-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 23px;
+            color: #7d899c;
+            font-size: 12px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            padding-top: 19px;
+            border-top: 1px solid #edf0f6;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 29px 22px 23px;
+                border-radius: 18px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .icon {
+                width: 68px;
+                height: 68px;
+                font-size: 31px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+
+        <div class="brand">
+            <div class="brand-icon">🎓</div>
+            <div class="brand-name">STUDENT PORTAL</div>
+        </div>
+
+        <div class="icon">📚</div>
+
+        <h1>Student Result Portal</h1>
+
+        <p class="subtitle">
+            Welcome! Enter your registration number
+            to access your academic results.
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label class="form-label" for="register_number">
+                Registration Number
+            </label>
+
+            <div class="input-wrap">
+                <input
+                    type="text"
+                    id="register_number"
+                    name="register_number"
+                    placeholder="Enter your registration number"
+                    autocomplete="username"
+                    required
+                >
+            </div>
+
+            <button type="submit">
+                View My Results &nbsp; →
+            </button>
+        </form>
+
+        {% if error %}
+            <div class="error" role="alert">
+                ⚠️ {{ error }}
+            </div>
+        {% endif %}
+
+        <div class="secure-note">
+            🔒 Student Result Management System
+        </div>
+
+        <div class="footer">
+            Academic Results · Student Portal
+        </div>
+
+    </main>
+</body>
+</html>
